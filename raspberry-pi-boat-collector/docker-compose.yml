@@ -8,3 +8,9 @@ services:
     environment:
       - API_URL=https://wi2pephaj4.execute-api.eu-west-1.amazonaws.com/ingest
       - SEND_INTERVAL=60
+      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/var/run/dbus/system_bus_socket
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /var/lib/bluetooth:/var/lib/bluetooth
+    devices:
+      - /dev/bus/usb
