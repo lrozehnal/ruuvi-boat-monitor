@@ -1,13 +1,17 @@
 terraform {
   required_providers {
     aws = {}
+    archive = {
+      source  = "hashicorp/archive"
+      version = "~> 2.4"
+    }
   }
   backend "s3" {
-    bucket = "ludek-terraform-states-buckets"
-    key    = "ruuvi-boat/terraform.tfstate"
-    region = "eu-west-1"
-    use_lockfile   = true
-    encrypt = true
+    bucket       = "ludek-terraform-states-buckets"
+    key          = "ruuvi-boat/terraform.tfstate"
+    region       = "eu-west-1"
+    use_lockfile = true
+    encrypt      = true
   }
 }
 
@@ -25,3 +29,4 @@ provider "aws" {
   alias  = "us-east-1"
   region = "us-east-1"
 }
+
