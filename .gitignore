@@ -1,2 +1,6 @@
 terraform/.terraform.lock.hcl
 terraform/.terraform
+terraform/lambda.zip
+terraform/lambda.zip
+**/*.zip
+.DS_Store

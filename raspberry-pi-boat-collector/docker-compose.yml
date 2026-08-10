@@ -1,0 +1,10 @@
+services:
+  ruuvi-collector:
+    build: .
+    container_name: ruuvi-collector
+    restart: unless-stopped
+    network_mode: host
+    privileged: true
+    environment:
+      - API_URL=https://wi2pephaj4.execute-api.eu-west-1.amazonaws.com/ingest
+      - SEND_INTERVAL=60

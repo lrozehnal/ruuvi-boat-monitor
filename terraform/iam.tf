@@ -1,6 +1,6 @@
 resource "aws_iam_role" "lambda" {
   name     = "${local.aws_config_env.project}-lambda-role"
-  provider = aws.us-east-1
+  provider = aws.eu-west-1
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -20,12 +20,13 @@ resource "aws_iam_role" "lambda" {
 resource "aws_iam_role_policy_attachment" "lambda_basic" {
   role       = aws_iam_role.lambda.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  provider   = aws.us-east-1
+  provider   = aws.eu-west-1
 }
 
 resource "aws_iam_role_policy" "lambda_dynamodb" {
   name = "${local.aws_config_env.project}-lambda-dynamodb"
   role = aws_iam_role.lambda.id
+  provider   = aws.eu-west-1
 
   policy = jsonencode({
     Version = "2012-10-17"

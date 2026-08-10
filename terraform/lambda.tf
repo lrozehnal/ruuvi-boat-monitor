@@ -1,11 +1,11 @@
 data "archive_file" "lambda" {
   type        = "zip"
-  source_dir  = "${path.module}/../lambda"
+  source_file  = "${path.module}/../lambda/handler.py"
   output_path = "${path.module}/lambda.zip"
 }
 
 resource "aws_lambda_function" "ingest" {
-  provider = aws.us-east-1
+  provider = aws.eu-west-1
   function_name = "${local.aws_config_env.project}-ingest"
   role          = aws_iam_role.lambda.arn
   handler       = "handler.lambda_handler"
@@ -28,7 +28,7 @@ resource "aws_lambda_function" "ingest" {
 }
 
 resource "aws_lambda_permission" "apigw" {
-  provider = aws.us-east-1
+  provider = aws.eu-west-1
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.ingest.function_name

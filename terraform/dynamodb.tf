@@ -3,7 +3,7 @@ resource "aws_dynamodb_table" "measurements" {
   billing_mode = "PAY_PER_REQUEST"
   hash_key     = "pk"
   range_key    = "sk"
-  provider     = aws.us-east-1
+  provider     = aws.eu-west-1
 
   attribute {
     name = "pk"

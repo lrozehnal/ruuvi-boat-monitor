@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lady Naomi – Ruuvi</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      margin: 0;
+      padding: 2rem;
+    }
+    h1 { margin-bottom: 0.25rem; }
+    .sub { color: #94a3b8; margin-bottom: 2rem; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+    .name { color: #94a3b8; margin-bottom: 0.5rem; }
+    .temp { font-size: 2.4rem; font-weight: 700; }
+    .meta { margin-top: 0.75rem; color: #94a3b8; font-size: 0.9rem; line-height: 1.5; }
+    .err { color: #f87171; }
+    .foot { margin-top: 1.5rem; color: #64748b; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <h1>Lady Naomi Yacht</h1>
+  <p class="sub">Ruuvi – aktuální hodnoty</p>
+
+  <div id="cards">Načítám…</div>
+  <p id="foot" class="foot"></p>
+
+  <script>
+    const API = "https://wi2pephaj4.execute-api.eu-west-1.amazonaws.com/latest";
+
+    async function load() {
+      const el = document.getElementById("cards");
+      try {
+        const res = await fetch(API);
+        const data = await res.json();
+        const sensors = data.sensors || [];
+
+        if (!sensors.length) {
+          el.innerHTML = '<p class="err">Zatím žádná data</p>';
+          return;
+        }
+
+        el.className = "grid";
+        el.innerHTML = sensors.map(s => `
+          <div class="card">
+            <div class="name">${s.name || s.mac}</div>
+            <div class="temp">${Number(s.temperature).toFixed(1)} °C</div>
+            <div class="meta">
+              Vlhkost: ${Number(s.humidity).toFixed(1)} %<br>
+              Tlak: ${Number(s.pressure).toFixed(1)} hPa<br>
+              Baterie: ${s.battery} mV<br>
+              ${s.timestamp || ""}
+            </div>
+          </div>
+        `).join("");
+
+        document.getElementById("foot").textContent =
+          "Aktualizováno: " + new Date().toLocaleString("cs-CZ");
+      } catch (e) {
+        el.innerHTML = `<p class="err">Chyba: ${e.message}</p>`;
+      }
+    }
+
+    load();
+    setInterval(load, 60000);
+  </script>
+</body>
+</html>
