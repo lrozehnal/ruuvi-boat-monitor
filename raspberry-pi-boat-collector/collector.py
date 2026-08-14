@@ -11,6 +11,8 @@ API_URL = os.environ.get(
     "https://wi2pephaj4.execute-api.eu-west-1.amazonaws.com/ingest"
 )
 
+API_KEY = os.environ.get("API_KEY", "")
+
 MACS = [
     "D2:E4:35:86:55:22",
     "E2:78:AD:AB:77:8F",
