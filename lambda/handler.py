@@ -6,12 +6,23 @@ import boto3
 
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["TABLE_NAME"])
-API_KEY = os.environ.get("API_KEY", "")
+#API_KEY = os.environ.get("API_KEY", "")
+
+ssm = boto3.client("ssm")
+_api_key_cache = None
 
 def to_decimal(value):
     if value is None:
         return None
     return Decimal(str(value))
+
+def get_api_key():
+    global _api_key_cache
+    if _api_key_cache is None:
+        param = os.environ["API_KEY_PARAM"]
+        resp = ssm.get_parameter(Name=param, WithDecryption=True)
+        _api_key_cache = resp["Parameter"]["Value"]
+    return _api_key_cache
 
 
 def lambda_handler(event, context):
@@ -24,7 +35,8 @@ def lambda_handler(event, context):
         
         incoming_key = headers.get("x-api-key") or headers.get("X-Api-Key") or ""
 
-        if not API_KEY or incoming_key != API_KEY:
+        #if not API_KEY or incoming_key != API_KEY:
+        if incoming_key != get_api_key():
             return {
                 "statusCode": 401,
                 "body": json.dumps({"error": "unauthorized"})

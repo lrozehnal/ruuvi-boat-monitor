@@ -30,18 +30,30 @@ resource "aws_iam_role_policy" "lambda_dynamodb" {
 
   policy = jsonencode({
     Version = "2012-10-17"
-    Statement = [{
+    Statement = [
+      {
       Effect = "Allow"
       Action = [
         "dynamodb:PutItem",
         "dynamodb:UpdateItem",
         "dynamodb:GetItem",
-        "dynamodb:Query"
+        "dynamodb:Query",
       ]
       Resource = [
         aws_dynamodb_table.measurements.arn,
         "${aws_dynamodb_table.measurements.arn}/index/*"
       ]
-    }]
+    },
+      {
+        Sid    = "SSMIngestApiKey"
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter"
+        ]
+        Resource = [
+          aws_ssm_parameter.ingest_api_key.arn
+        ]
+      }
+  ]
   })
 }

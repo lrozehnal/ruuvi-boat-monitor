@@ -4,3 +4,4 @@ terraform/lambda.zip
 terraform/lambda.zip
 **/*.zip
 .DS_Store
+.env

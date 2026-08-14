@@ -19,7 +19,7 @@ resource "aws_lambda_function" "ingest" {
   environment {
     variables = {
       TABLE_NAME = aws_dynamodb_table.measurements.name
-      API_KEY    = var.ingest_api_key
+      API_KEY    = aws_ssm_parameter.ingest_api_key.name
     }
   }
 
