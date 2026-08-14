@@ -4,4 +4,6 @@ resource "aws_ssm_parameter" "ingest_api_key" {
   type      = "SecureString"
   value     = var.ingest_api_key
   overwrite = true
+
+  tags = local.tags
 }
