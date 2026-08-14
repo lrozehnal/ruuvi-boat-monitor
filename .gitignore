@@ -1,5 +1,6 @@
 terraform/.terraform.lock.hcl
 terraform/.terraform
+terraform/terraform.tfvars
 terraform/lambda.zip
 terraform/lambda.zip
 **/*.zip
