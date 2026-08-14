@@ -34,9 +34,9 @@
 </head>
 <body>
   <h1>Lady Naomi Yacht</h1>
-  <p class="sub">Ruuvi – aktuální hodnoty</p>
+  <p class="sub">Ruuvi – current values</p>
 
-  <div id="cards">Načítám…</div>
+  <div id="cards">Loading…</div>
   <p id="foot" class="foot"></p>
 
   <script>
@@ -50,7 +50,7 @@
         const sensors = data.sensors || [];
 
         if (!sensors.length) {
-          el.innerHTML = '<p class="err">Zatím žádná data</p>';
+          el.innerHTML = '<p class="err">No data loaded so far</p>';
           return;
         }
 
@@ -60,18 +60,18 @@
             <div class="name">${s.name || s.mac}</div>
             <div class="temp">${Number(s.temperature).toFixed(1)} °C</div>
             <div class="meta">
-              Vlhkost: ${Number(s.humidity).toFixed(1)} %<br>
-              Tlak: ${Number(s.pressure).toFixed(1)} hPa<br>
-              Baterie: ${s.battery} mV<br>
+              Humidity: ${Number(s.humidity).toFixed(1)} %<br>
+              Preasure: ${Number(s.pressure).toFixed(1)} hPa<br>
+              Batery: ${s.battery} mV<br>
               ${s.timestamp || ""}
             </div>
           </div>
         `).join("");
 
         document.getElementById("foot").textContent =
-          "Aktualizováno: " + new Date().toLocaleString("cs-CZ");
+          "Generated (local time): " + new Date().toLocaleString("cs-CZ");
       } catch (e) {
-        el.innerHTML = `<p class="err">Chyba: ${e.message}</p>`;
+        el.innerHTML = `<p class="err">Error: ${e.message}</p>`;
       }
     }
 
