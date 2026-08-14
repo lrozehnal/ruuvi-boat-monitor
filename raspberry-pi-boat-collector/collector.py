@@ -36,6 +36,10 @@ def send_to_aws(mac: str, name: str, data: dict) -> bool:
         "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
     }
     body = json.dumps(payload).encode("utf-8")
+    headers = {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+    }
     req = urllib.request.Request(
         API_URL,
         data=body,
