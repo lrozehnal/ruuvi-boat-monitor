@@ -45,7 +45,7 @@ def send_to_aws(mac: str, name: str, data: dict) -> bool:
     req = urllib.request.Request(
         API_URL,
         data=body,
-        headers={"Content-Type": "application/json"},
+        headers=headers,
         method="POST",
     )
     try:
